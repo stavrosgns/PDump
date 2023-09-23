@@ -19,18 +19,21 @@ API provides with the capabilities to search for _domain, email, username, passw
 - The code has been currently tested against **domain, email, username, password**
 
 Therefore, the CLI arguments should be
-- ```python
-  python3 pdump.py <type> -s <search value>
-  ``` == For Example ==> python3 pdump.py domain -s gmail.com
-- ```python
-  python3 pdump.py <type> -f <file of multiple value separated by new line> 
-  ``` == For Example ==> python3 pdump.py password -f passwords.txt
+```python
+  python3 pdump.py <type> -s <search value> # == For Example ==> python3 pdump.py domain -s gmail.com
+  ```
+  
+```python
+  python3 pdump.py <type> -f <file of multiple value separated by new line> # == For Example ==> python3 pdump.py password -f passwords.txt
+  ```
 
 # Filename Conventions
-The folders in which he output data are saved follow the namespace _{search type}-{search data}-{page}_, if there is a pagination. For example, **domain-gmail.com-1** would be the folder name in case ```python 
+The folders in which he output data are saved follow the namespace _{search type}-{search data}-{page}_, if there is a pagination. For example, **domain-gmail.com-1** would be the folder name in case the following command is executed 
+```python
 python3 pdump domain -s gmail.com
-``` command is executed
+```
 
-The filenames adhere to a different namespace _{currentDaycurrentMonth_currentHourcurrentMinute}-{search type}-{search data}_. For example, **2309_1257-domain-gmail.com.csv** would be the filename in case ```python
+The filenames adhere to a different namespace _{currentDaycurrentMonth_currentHourcurrentMinute}-{search type}-{search data}_. For example, **2309_1257-domain-gmail.com.csv** would be the filename in case the following command is executed and the datetime is **23/09/2023 12:57**
+```python
 python3 pdump domain -s gmail.com
-``` command is executed and the datetime is 23/09/2023 12:57
+``` 

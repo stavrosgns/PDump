@@ -80,6 +80,8 @@ class DAgent:
 
         This function takes the parsed JSON object from the API response and
           - Takes the 'entries' key which contains the data (data['entries'])
+            - The API response when no leaks were found is {..., 'entries': null, ...} and yet once parse it with json
+              module it becomes {..., 'entries': None, ...}. Thus, the statement, 'if json_entries is None:'
           - Calculates how many entries there are in the response (size)
 
         Then trims off the .csv extension of the filename. Do not make a funny face, in line 138, you will observe that
@@ -92,25 +94,30 @@ class DAgent:
         The current time is part of the filename in order
         """
         json_entries = data['entries']
-        size = len(json_entries)
-        print(f"[INFO] {size} were loaded")
+        if json_entries is None:
+            print("[INFO] No Leaks were found")
+        else:
+            size = len(json_entries)
+            print(f"[INFO] {size} were loaded")
 
-        trimmed_filename = os.path.splitext(filename)[0] # => The result would be (filename, .csv) so I care about [0]
-        if not os.path.exists(f'./results/{trimmed_filename}'):
-            os.mkdir(f'./results/{trimmed_filename}') # Let me satisfy my obsession with cleaning and organize the output by results
+            trimmed_filename = os.path.splitext(filename)[
+                0]  # => The result would be (filename, .csv) so I care about [0]
+            if not os.path.exists(f'./results/{trimmed_filename}'):
+                os.mkdir(
+                    f'./results/{trimmed_filename}')  # Let me satisfy my obsession with cleaning and organize the output by results
 
-        now = datetime.now()
-        current_time = now.strftime("%d%m_%H%M")
-        with open(f"./results/{trimmed_filename}/{current_time}-{filename}", 'w') as output:
-            csv_writer = csv.writer(output)
-            count = 0
-            for entry in json_entries:
-                if count == 0:
-                    header = entry.keys()
-                    csv_writer.writerow(header)
-                    count += 1
-                csv_writer.writerow(entry.values())
-        print(f"[INFO] JSON => CSV Completed")
+            now = datetime.now()
+            current_time = now.strftime("%d%m_%H%M")
+            with open(f"./results/{trimmed_filename}/{current_time}-{filename}", 'w') as output:
+                csv_writer = csv.writer(output)
+                count = 0
+                for entry in json_entries:
+                    if count == 0:
+                        header = entry.keys()
+                        csv_writer.writerow(header)
+                        count += 1
+                    csv_writer.writerow(entry.values())
+            print(f"[INFO] JSON => CSV Completed")
 
     def __convert_csv_to_xlsx(self, csv, filename, sheetname):
         """
@@ -126,17 +133,19 @@ class DAgent:
         location './results/{trimmed_filename}/{filename}' exists.
         """
         trimmed_filename = os.path.splitext(filename)[0]
-
         now = datetime.now()
         current_time = now.strftime("%d%m_%H%M")
-        read_csv = pd.read_csv(f"./results/{trimmed_filename}/{current_time}-{csv}")
-        excel_writer = pd.ExcelWriter(f"./results/{trimmed_filename}/{current_time}-{filename}")
+        if os.path.exists(f"./results/{trimmed_filename}/{current_time}-{csv}"):
+            read_csv = pd.read_csv(f"./results/{trimmed_filename}/{current_time}-{csv}")
+            excel_writer = pd.ExcelWriter(f"./results/{trimmed_filename}/{current_time}-{filename}")
 
-        read_csv.to_excel(excel_writer,
-                          index=False,
-                          sheet_name=f"{sheetname}")
-        excel_writer._save()
-        print("[INFO] CSV => Excel Completed")
+            read_csv.to_excel(excel_writer,
+                              index=False,
+                              sheet_name=f"{sheetname}")
+            excel_writer._save()
+            print("[INFO] CSV => Excel Completed")
+        else:
+            print("[WARNING] Most Likely there aren't leaks")
 
 
     def query_dehashed(self, datatype, data):

@@ -1,5 +1,4 @@
 # PDump
-<img src="https://github.com/stavrosgns/PDump/assets/59849433/6a03cedc-d35c-4417-bb47-f8fb6a90caad" width=600 height=500>
 
 A Command Line Interface (CLI) tool which harness the power of DEHASHED API to retrieve leaked information for DEHASHED Data Well
 

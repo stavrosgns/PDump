@@ -1,5 +1,15 @@
 # PDump
 
+```bash
+██████╗ ██████╗ ██╗   ██╗███╗   ███╗██████╗
+██╔══██╗██╔══██╗██║   ██║████╗ ████║██╔══██╗
+██████╔╝██║  ██║██║   ██║██╔████╔██║██████╔╝
+██╔═══╝ ██║  ██║██║   ██║██║╚██╔╝██║██╔═══╝
+██║     ██████╔╝╚██████╔╝██║ ╚═╝ ██║██║
+╚═╝     ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝
+A DEHASHED password dumper written by purpl3ph03n1x
+```
+
 A Command Line Interface (CLI) tool which harness the power of DEHASHED API to retrieve leaked information for DEHASHED Data Well
 
 # About The Tool

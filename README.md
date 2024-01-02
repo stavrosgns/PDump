@@ -59,7 +59,20 @@ python3 -m pip install -r requirements
 
 ## Usage
 
-![image](https://github.com/stavrosgns/PDump/assets/59849433/7a528e98-6c33-4df8-a3bc-246ab34858dc)
+```bash
+usage: pdump.py [-h] [-s SEARCH] [-f FILE] query_type
+
+Querying DEHASHED For Leaked Credentials
+
+positional arguments:
+  query_type            domain, email, username, password, vin, phone, name, ip_address, hashed_password
+
+options:
+  -h, --help            show this help message and exit
+  -s SEARCH, --search SEARCH
+                        The value to be searched against DEHASHED database
+  -f FILE, --file FILE  A file with New Line Separated values
+```
 
 API provides with the capabilities to search for _domain, email, username, password, hashed_password, vin, phone, name, ip_address_
 - The code has been currently tested against **domain, email, username, password**

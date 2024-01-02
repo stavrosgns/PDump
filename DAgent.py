@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 
+# [!] The dictionary below may be susceptible to changes of Dehashed Data Well [!]
+
 class DAgent:
     API_ENDPOINT = "https://api.dehashed.com/search?query="
 
@@ -94,17 +96,31 @@ class DAgent:
         The current time is part of the filename in order
         """
         json_entries = data['entries']
+        datawell_dbs_and_dates = self.__read_dehashed_datawell()
+
         if json_entries is None:
             print("[INFO] No Leaks were found")
         else:
             size = len(json_entries)
             print(f"[INFO] {size} were loaded")
 
-            trimmed_filename = os.path.splitext(filename)[
-                0]  # => The result would be (filename, .csv) so I care about [0]
+            trimmed_filename = os.path.splitext(filename)[0]  # => The result would be (filename, .csv) so I care about [0]
             if not os.path.exists(f'./results/{trimmed_filename}'):
-                os.mkdir(
-                    f'./results/{trimmed_filename}')  # Let me satisfy my obsession with cleaning and organize the output by results
+                os.mkdir(f'./results/{trimmed_filename}')  # Let me satisfy my obsession with cleaning and organize the output by results
+
+            """
+            First to all entries is added an additional key, 'date', with 'No Date' value as default value.
+            Then the code takes the value of the database_name key returned from the JSON response.
+            Next, it checks that value against the whole database for matches.
+            Once a match is identified the default value is changed to the database date
+            """
+            for entry in json_entries:
+                recordDB = entry['database_name']
+                entry.update({'date': 'No Date'})
+                for dbstr, datestr in datawell_dbs_and_dates.items():
+                    if (recordDB.lower() in str(dbstr).lower()) or (str(dbstr).lower() in recordDB.lower()):
+                        entry['date'] = str(datestr)
+                        break
 
             now = datetime.now()
             current_time = now.strftime("%d%m_%H%M")
@@ -118,6 +134,18 @@ class DAgent:
                         count += 1
                     csv_writer.writerow(entry.values())
             print(f"[INFO] JSON => CSV Completed")
+
+    def __read_dehashed_datawell(self):
+        # The file should be in the project's directory
+        filePath = "./DataWell/Dehashed-DataWell.xlsx"
+        if os.path.exists(filePath):
+            dataframe = pd.read_excel(filePath)
+            dataframe2dict = dataframe.to_dict()
+            list_dbs = list(dataframe2dict['Database'].values())
+            list_db_year = list(dataframe2dict['Date'].values())
+
+            return dict(zip(list_dbs, list_db_year))
+        print("[Warning] File Not Found!")
 
     def __convert_csv_to_xlsx(self, csv, filename, sheetname):
         """
@@ -172,6 +200,7 @@ class DAgent:
                 print(f'[INFO] Response was saved to a log file. Check the \'log\' folder under the filename \'{datatype}-{data}.json')
 
                 parsed_json = json.loads(returned_json.text)
+
                 self.__convert_json_data_to_csv(parsed_json,f"{datatype}-{data}.csv")
                 self.__convert_csv_to_xlsx(f"{datatype}-{data}.csv", f"{datatype}-{data}.xlsx", data)
 

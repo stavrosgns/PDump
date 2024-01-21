@@ -10,7 +10,7 @@
 A DEHASHED password dumper written by purpl3ph03n1x
 ```
 
-A Command Line Interface (CLI) tool which harness the power of DEHASHED API to retrieve leaked information for DEHASHED Data Well
+A Command Line Interface (CLI) tool which harness the power of DEHASHED API to retrieve leaked information for DEHASHED Data Well.
 
 # About The Tool
 ## Insperation
@@ -25,9 +25,9 @@ The reason was that brings value to the client and after a couple of tunes using
 ### Output Location
 Upon execution of the script two folders are created
 - _log_ => Where the JSON response of the API is saved
-- _results_ => Where the CSV and XLSX files are saved inside another folder whose name depends on the search type and search data
+- _results_ => Where the CSV and XLSX files are saved inside another folder whose name depends on the search type and search data.
 
-- [ ] Program the tool to have a fixed location to save the output, otherwise the filesystem will be full of _log_ and _results_ folders
+- [ ] Program the tool to have a fixed location to save the output, otherwise the filesystem will be full of _log_ and _results_ folders.
 
 ### Output Format
 PDump is saving the results in 3 output formats
@@ -86,7 +86,7 @@ Therefore, the CLI arguments should be
   python3 pdump.py password -f passwords.txt
   ```
 # Acknowledgements
-I want to shout out my gratitude for my colleague and friend [NickVourd](https://github.com/nickvourd) for his ethusiasm and believing that is not just a tool
+I want to shout out my gratitude for my colleague and friend [@nickvourd](https://twitter.com/nickvourd) for his ethusiasm and believing that is not just a tool.
 
 # License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
